@@ -11,6 +11,17 @@ import java.util.List;
 import java.util.Random;
 
 public class MovementUtils {
+
+    private static void lockInOrder(Road a, Road b) {
+        if (System.identityHashCode(a) < System.identityHashCode(b)) {
+            a.getLock().lock();
+            b.getLock().lock();
+        } else {
+            b.getLock().lock();
+            a.getLock().lock();
+        }
+    }
+
     public static boolean tryDirectedMove(Direction d, CityElement[][] map, Agent agent) {
         int nr = agent.getX() + d.dr;
         int nc = agent.getY() + d.dc;
@@ -61,13 +72,26 @@ public class MovementUtils {
         return true;
     }
 
-    private static void moveTo(int nr, int nc, Road target, CityElement[][] map, Agent agent) {
+    private static boolean moveTo(int nr, int nc, Road target, CityElement[][] map, Agent agent) {
         Road current = (Road) map[agent.getX()][agent.getY()];
-        current.leave();
-        target.enter();
 
-        agent.setX(nr);
-        agent.setY(nc);
+        lockInOrder(current, target);
+        try {
+            if (!target.tryEnter()) {
+                return false;
+            }
+
+            current.leave();
+
+            agent.setX(nr);
+            agent.setY(nc);
+
+            return true;
+
+        } finally {
+            current.getLock().unlock();
+            target.getLock().unlock();
+        }
     }
 
     public static boolean canMove(Direction d, CityElement[][] map, Agent agent) {

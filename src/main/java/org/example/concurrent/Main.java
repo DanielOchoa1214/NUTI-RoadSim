@@ -17,6 +17,7 @@ public class Main {
                 city.step();
                 Thread.sleep(500);
             }
+            city.shutdown();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

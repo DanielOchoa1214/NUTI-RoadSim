@@ -1,9 +1,14 @@
 package org.example.model;
 
 public class Semaphore implements CityElement {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
     private Direction blockedDirection = Direction.UP;
+
+    public Semaphore(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public void tick() {
         blockedDirection = next(blockedDirection);

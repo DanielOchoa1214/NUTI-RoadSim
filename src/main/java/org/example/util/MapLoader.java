@@ -21,17 +21,17 @@ public final class MapLoader {
             String line = lines.get(i);
             for (int j = 0; j < cols; j++) {
                 char c = line.charAt(j);
-                matrix[i][j] = createCell(c);
+                matrix[i][j] = createCell(c, i , j);
             }
         }
         return matrix;
     }
 
-    private static CityElement createCell(char c) {
+    private static CityElement createCell(char c, int i, int j) {
         return switch (c) {
             case '#' -> new Block();
             case '.' -> new Road();
-            case '+' -> new Semaphore();
+            case '+' -> new Semaphore(i, j);
             default -> throw new IllegalArgumentException(
                     "Unknown map character: " + c
             );

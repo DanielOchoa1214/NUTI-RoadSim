@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.concurrent.model;
 
 public class Semaphore implements CityElement {
     private final int x;

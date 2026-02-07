@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.concurrent.model;
 
 public class Road implements CityElement {
     private int agents = 0;

@@ -1,6 +1,6 @@
-package org.example;
+package org.example.sequential;
 
-import org.example.model.City;
+import org.example.sequential.model.City;
 
 import java.io.IOException;
 import java.util.Scanner;

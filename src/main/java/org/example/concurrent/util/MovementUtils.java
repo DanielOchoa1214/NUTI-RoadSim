@@ -1,29 +1,21 @@
-package org.example.util;
+package org.example.concurrent.util;
 
-import org.example.model.Agent;
-import org.example.model.CityElement;
-import org.example.model.Direction;
-import org.example.model.Road;
-import org.example.model.Semaphore;
+import org.example.concurrent.model.Agent;
+import org.example.concurrent.model.CityElement;
+import org.example.concurrent.model.Direction;
+import org.example.concurrent.model.Road;
+import org.example.concurrent.model.Semaphore;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class MovementUtils {
-
-    private static final int[][] DIRECTIONS = {
-            {-1, 0}, // up
-            {1, 0},  // down
-            {0, -1}, // left
-            {0, 1}   // right
-    };
-
     public static boolean tryDirectedMove(Direction d, CityElement[][] map, Agent agent) {
         int nr = agent.getX() + d.dr;
         int nc = agent.getY() + d.dc;
 
-        if (!inBounds(nr, nc, map)) return false;
+        if (inBounds(nr, nc, map)) return false;
 
         CityElement target = map[nr][nc];
 
@@ -50,7 +42,7 @@ public class MovementUtils {
             int nr = sem.getX() + d.dr;
             int nc = sem.getY() + d.dc;
 
-            if (!inBounds(nr, nc, map)) continue;
+            if (inBounds(nr, nc, map)) continue;
             if (nr == agent.getX() && nc == agent.getY()) continue;
 
             if (map[nr][nc] instanceof Road road && road.canEnter()) {
@@ -82,7 +74,7 @@ public class MovementUtils {
         int nr = agent.getX() + d.dr;
         int nc = agent.getY() + d.dc;
 
-        if (!inBounds(nr, nc, map)) return false;
+        if (inBounds(nr, nc, map)) return false;
 
         if (map[nr][nc] instanceof Road road) {
             return road.canEnter();
@@ -92,7 +84,7 @@ public class MovementUtils {
     }
 
     private static boolean inBounds(int r, int c, CityElement[][] map) {
-        return r >= 0 && c >= 0 &&
-                r < map.length && c < map[0].length;
+        return r < 0 || c < 0 ||
+                r >= map.length || c >= map[0].length;
     }
 }

@@ -1,6 +1,6 @@
-package org.example.model;
+package org.example.concurrent.model;
 
-import org.example.util.MovementUtils;
+import org.example.concurrent.util.MovementUtils;
 
 import java.util.ArrayList;
 import java.util.List;

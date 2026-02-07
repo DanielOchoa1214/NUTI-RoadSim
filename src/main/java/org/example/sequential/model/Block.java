@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.sequential.model;
 
 public class Block implements CityElement {
     @Override

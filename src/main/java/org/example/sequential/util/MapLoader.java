@@ -1,9 +1,9 @@
-package org.example.util;
+package org.example.sequential.util;
 
-import org.example.model.Block;
-import org.example.model.CityElement;
-import org.example.model.Road;
-import org.example.model.Semaphore;
+import org.example.sequential.model.Block;
+import org.example.sequential.model.CityElement;
+import org.example.sequential.model.Road;
+import org.example.sequential.model.Semaphore;
 
 import java.io.IOException;
 import java.nio.file.Files;

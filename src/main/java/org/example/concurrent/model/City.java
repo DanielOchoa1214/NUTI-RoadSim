@@ -1,6 +1,6 @@
-package org.example.model;
+package org.example.concurrent.model;
 
-import org.example.util.MapLoader;
+import org.example.concurrent.util.MapLoader;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,9 +16,7 @@ public class City {
         this.cityGrid = MapLoader.loadMap("src/main/resources/city-grid.txt");
         this.generateAgents(numberOfAgents);
 
-        agents.forEach(agent -> {
-            ((Road) cityGrid[agent.getX()][agent.getY()]).enter();
-        });
+        agents.forEach(agent -> ((Road) cityGrid[agent.getX()][agent.getY()]).enter());
     }
 
     public void step() {

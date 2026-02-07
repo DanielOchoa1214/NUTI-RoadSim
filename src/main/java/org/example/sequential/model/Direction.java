@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.sequential.model;
 
 public enum Direction {
     UP(-1, 0),

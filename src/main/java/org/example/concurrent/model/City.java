@@ -17,16 +17,15 @@ public class City {
     private final ExecutorService pool;
 
     public City(int numberOfAgents) throws IOException {
-        this.cityGrid = MapLoader.loadMap("src/main/resources/city-grid.txt");
+        this.cityGrid = MapLoader.loadMap("src/main/resources/city_1000.txt");
         this.generateAgents(numberOfAgents);
-        this.pool = Executors.newFixedThreadPool(
-                Runtime.getRuntime().availableProcessors()
-        );
+
+        this.pool = Executors.newVirtualThreadPerTaskExecutor();
 
         agents.forEach(agent -> ((Road) cityGrid[agent.getX()][agent.getY()]).tryEnter());
     }
 
-    public void step() throws InterruptedException {
+    public void step(int agentsPerTask) throws InterruptedException {
         // 1. Update semaphores (single-threaded)
         for (CityElement[] cityElements : cityGrid) {
             for (CityElement cityElement : cityElements) {
@@ -36,12 +35,14 @@ public class City {
             }
         }
 
-        // 2. Move agents concurrently
+        // 2. Move agents concurrently in chunks
         List<Callable<Void>> tasks = new ArrayList<>();
-
-        for (Agent agent : agents) {
+        for (int i = 0; i < agents.size(); i += agentsPerTask) {
+            final List<Agent> chunk = agents.subList(i, Math.min(agents.size(), i + agentsPerTask));
             tasks.add(() -> {
-                agent.move(cityGrid);
+                for (Agent agent : chunk) {
+                    agent.move(cityGrid);
+                }
                 return null;
             });
         }

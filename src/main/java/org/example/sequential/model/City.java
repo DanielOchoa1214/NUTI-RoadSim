@@ -13,7 +13,7 @@ public class City {
     private final List<Agent> agents = new ArrayList<>();
 
     public City(int numberOfAgents) throws IOException {
-        this.cityGrid = MapLoader.loadMap("src/main/resources/city-grid.txt");
+        this.cityGrid = MapLoader.loadMap("src/main/resources/city_1000.txt");
         this.generateAgents(numberOfAgents);
 
         agents.forEach(agent -> ((Road) cityGrid[agent.getX()][agent.getY()]).enter());
